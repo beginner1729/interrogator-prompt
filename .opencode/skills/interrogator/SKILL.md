@@ -1,6 +1,6 @@
 ---
 name: interrogator
-description: Given a vague coding requirement, systematically asks clarifying questions across 9 aspects (functional, I/O, edge cases, performance, security, deps, testing, success criteria, stakeholders) until all are covered. Hybrid approach: rule-based aspect checklist with LLM-generated follow-ups.
+description: Given a vague coding requirement, systematically asks clarifying questions across 9 aspects (functional, I/O, edge cases, performance, security, deps, testing, success criteria, stakeholders) until all are covered. Hybrid approach -> rule-based aspect checklist with LLM-generated follow-ups.
 license: MIT
 metadata:
   aspects: functional,inputs-outputs,edge-cases,performance,security,dependencies,testing,success-criteria,stakeholders
