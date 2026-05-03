@@ -25,7 +25,7 @@ It asks **one question at a time**, adapts follow-ups based on your answers, ski
 ### One-liner (global install)
 
 ```bash
-curl -sSL https://raw.githubusercontent.com/anomalyco/interrogator-prompt/main/install.sh | bash
+curl -sSL https://raw.githubusercontent.com/beginner1729/interrogator-prompt/main/install.sh | bash
 ```
 
 The script is self-contained — all files are embedded, so you only need the single HTTP request.
