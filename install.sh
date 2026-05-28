@@ -265,19 +265,10 @@ Do NOT activate when:
 CLAUDE_EOF
 
 # Cursor support
-CURSOR_RULES="$HOME/.cursorrules"
-CURSOR_MARKER="<!-- INTERROGATOR RULE -->"
+CURSOR_RULES_DIR="$HOME/.cursor/rules"
+mkdir -p "$CURSOR_RULES_DIR"
 
-if [ -f "$CURSOR_RULES" ]; then
-    if grep -q "$CURSOR_MARKER" "$CURSOR_RULES"; then
-        echo -e "${YELLOW}Interrogator already present in ~/.cursorrules, will update...${NC}"
-        # Remove old interrogator section and re-append
-        sed -i.bak "/$CURSOR_MARKER/,$ d" "$CURSOR_RULES" && rm -f "$CURSOR_RULES.bak"
-    fi
-    cat >> "$CURSOR_RULES" << 'CURSOR_EOF'
-
-<!-- INTERROGATOR RULE -->
-
+cat > "$CURSOR_RULES_DIR/interrogator.md" << 'CURSOR_EOF'
 # Interrogator Agent
 
 When the user provides a vague or underspecified coding requirement, act as the Interrogator. Systematically ask clarifying questions across all relevant aspects before proceeding to implementation.
@@ -323,63 +314,13 @@ Do NOT activate when:
 - Output is a prompt, never code.
 - The prompt must be actionable for another developer.
 CURSOR_EOF
-else
-    cat > "$CURSOR_RULES" << 'CURSOR_EOF'
-<!-- INTERROGATOR RULE -->
-
-# Interrogator Agent
-
-When the user provides a vague or underspecified coding requirement, act as the Interrogator. Systematically ask clarifying questions across all relevant aspects before proceeding to implementation.
-
-## Activation Conditions
-
-Activate when:
-- The request is vague, ambiguous, or missing key details
-- It's a high-level feature request without specifics
-- A reasonable developer would need to ask 2+ clarifying questions
-
-Do NOT activate when:
-- The request is already detailed and specific
-- The user explicitly says "just do it" or "no questions"
-- The task is trivial and well-understood
-
-## The 9 Aspects to Cover
-
-1. **Functional Requirements**: What exactly should this do? Core features? Acceptance criteria?
-2. **Inputs & Outputs**: Formats, types, sources, destinations, transformations?
-3. **Edge Cases & Errors**: Failure modes, error handling, boundary conditions, null/empty input?
-4. **Performance Constraints**: Latency, throughput, memory, compute, expected load?
-5. **Security Concerns**: Auth, validation, secrets, PII, compliance?
-6. **Dependencies & Tech Stack**: Languages, frameworks, integrations, version constraints?
-7. **Testing Strategy**: Unit/integration/e2e, coverage targets, tooling?
-8. **Success Criteria**: Definition of done, metrics, acceptance tests?
-9. **Stakeholders & Audience**: End users, maintainers, non-functional expectations?
-
-## Workflow
-
-1. Announce you'll ask clarifying questions
-2. Ask ONE question at a time per aspect
-3. Ask 1-2 follow-ups if answers reveal ambiguity
-4. Mark aspect as covered when clear
-5. When all aspects are covered, synthesize into a comprehensive prompt
-6. Write the prompt to `interrogated-prompt.md`
-
-## Rules
-
-- One question at a time. Never dump a list.
-- Skip irrelevant aspects.
-- If user says "that's enough", stop immediately.
-- Output is a prompt, never code.
-- The prompt must be actionable for another developer.
-CURSOR_EOF
-fi
 
 echo ""
 echo -e "${GREEN}Installed:${NC}"
 echo "  Opencode Skill: $SKILL_DIR/SKILL.md"
 echo "  Opencode Agent: $AGENT_DIR/interrogator.md"
 echo "  Claude Command: $CLAUDE_COMMANDS_DIR/interrogator.md"
-echo "  Cursor Rules:   $CURSOR_RULES"
+echo "  Cursor Rules:   $CURSOR_RULES_DIR/interrogator.md"
 echo ""
 echo -e "${GREEN}Done!${NC}"
 echo ""
